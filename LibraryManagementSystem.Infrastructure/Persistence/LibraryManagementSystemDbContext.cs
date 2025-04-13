@@ -25,7 +25,7 @@ public class LibraryManagementSystemDbContext : DbContext
         builder.Entity<Loan>()
             .HasOne(l => l.Book)
             .WithMany(b => b.Loans)
-            .HasForeignKey(l => l.Book)
+            .HasForeignKey(l => l.IdBook)
             .OnDelete(DeleteBehavior.Restrict);
 
         base.OnModelCreating(builder);
