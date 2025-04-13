@@ -14,4 +14,6 @@ public class Book
     public string Author {  get; private set; }
     public string Isbn { get; private set; }
     public int Published { get; private set; }
+
+    public ICollection<Loan> Loans { get; private set; } = new List<Loan>();
 }
