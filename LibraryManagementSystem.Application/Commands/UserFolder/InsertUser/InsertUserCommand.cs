@@ -5,8 +5,8 @@ using MediatR;
 namespace LibraryManagementSystem.Application.Commands.UserFolder.InsertUser;
 public class InsertUserCommand : IRequest<UserViewModel>
 {
-    public string Name { get; private set; }
-    public string Email { get; private set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
 
     public User ToEntity()
     {

@@ -1,4 +1,7 @@
+using LibraryManagementSystem.Application.Commands.UserFolder.InsertUser;
+using LibraryManagementSystem.Core.Repositories;
 using LibraryManagementSystem.Infrastructure.Persistence;
+using LibraryManagementSystem.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("LibraryManagementSystemCs");
 builder.Services.AddDbContext<LibraryManagementSystemDbContext>(o => o.UseSqlServer(connectionString));
 
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<InsertUserCommand>());
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

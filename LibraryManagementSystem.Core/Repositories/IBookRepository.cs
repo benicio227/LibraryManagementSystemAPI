@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibraryManagementSystem.Core.Entities;
 
 namespace LibraryManagementSystem.Core.Repositories;
-internal interface IBookRepository
+public interface IBookRepository
 {
+    public Task<Book?> Add(Book book);
+    public Task<List<Book>> GetAll();
+    public Task<Book?> GetById(int id);
+    public Task Delete(int id);
 }
