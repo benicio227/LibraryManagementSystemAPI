@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using LibraryManagementSystem.Application.Models;
+using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.BookFolder.DeleteBook;
-public class DeleteBookCommand : IRequest<Unit>
+public class DeleteBookCommand : IRequest<ResultViewModel>
 {
     public DeleteBookCommand(int id)
     {

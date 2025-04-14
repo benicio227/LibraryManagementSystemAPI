@@ -1,8 +1,9 @@
-﻿using LibraryManagementSystem.Core.Repositories;
+﻿using LibraryManagementSystem.Application.Models;
+using LibraryManagementSystem.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.BookFolder.DeleteBook;
-public class DeleteBookHandle : IRequestHandler<DeleteBookCommand, Unit>
+public class DeleteBookHandle : IRequestHandler<DeleteBookCommand, ResultViewModel>
 {
     private readonly IBookRepository _repository;
 
@@ -10,13 +11,15 @@ public class DeleteBookHandle : IRequestHandler<DeleteBookCommand, Unit>
     {
         _repository = repository;
     }
-    public async Task<Unit> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
         var deleted = await _repository.Delete(request.Id);
 
         if (!deleted)
-            throw new KeyNotFoundException("Livro não encontrado para exclusão.");
+        {
+            return ResultViewModel.Error("Livro não encontrado");
+        }
 
-        return Unit.Value;
+        return ResultViewModel.Success();
     }
 }

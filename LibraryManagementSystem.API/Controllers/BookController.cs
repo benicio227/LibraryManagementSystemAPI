@@ -39,13 +39,23 @@ public class BookController : ControllerBase
     {
         var result = await _mediator.Send(new GetBookByIdQuery(id));
 
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        await _mediator.Send(new DeleteBookCommand(id));
+        var result = await _mediator.Send(new DeleteBookCommand(id));
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
 
         return NoContent();
     }
