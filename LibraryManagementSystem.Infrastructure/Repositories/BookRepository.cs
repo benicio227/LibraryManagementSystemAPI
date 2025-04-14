@@ -20,11 +20,16 @@ public class BookRepository : IBookRepository
         return book;
     }
 
-    public async Task Delete(int id)
+    public async Task<bool> Delete(int id)
     {
         var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
 
-        _context.Books.Remove(book!);
+        if (book == null)
+            return false;
+
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<List<Book>> GetAll()
