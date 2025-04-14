@@ -1,5 +1,7 @@
-﻿using LibraryManagementSystem.Application.Commands.BookFolder.InsertBook;
+﻿using LibraryManagementSystem.Application.Commands.BookFolder.DeleteBook;
+using LibraryManagementSystem.Application.Commands.BookFolder.InsertBook;
 using LibraryManagementSystem.Application.Queries.GetAllBooks;
+using LibraryManagementSystem.Application.Queries.GetBookById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,14 +35,18 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById()
+    public async Task<IActionResult> GetById(int id)
     {
-        return Ok();
+        var result = await _mediator.Send(new GetBookByIdQuery(id));
+
+        return Ok(result);
     }
 
     [HttpDelete]
-    public IActionResult Delete()
+    public async Task<IActionResult> Delete(int id)
     {
-        return Ok();
+        await _mediator.Send(new DeleteBookCommand(id));
+
+        return NoContent();
     }
 }
