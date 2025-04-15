@@ -3,7 +3,7 @@ using LibraryManagementSystem.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.UserFolder.InsertUser;
-public class InsertUserHandler : IRequestHandler<InsertUserCommand, UserViewModel>
+public class InsertUserHandler : IRequestHandler<InsertUserCommand, ResultViewModel<UserViewModel>>
 {
     private readonly IUserRepository _repository;
 
@@ -11,12 +11,19 @@ public class InsertUserHandler : IRequestHandler<InsertUserCommand, UserViewMode
     {
         _repository = repository;
     }
-    public async Task<UserViewModel> Handle(InsertUserCommand request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel<UserViewModel>> Handle(InsertUserCommand request, CancellationToken cancellationToken)
     {
         var user = request.ToEntity();
 
-        await _repository.Add(user);
+        var userExist = await _repository.Add(user);
 
-        return UserViewModel.FromEntity(user);
+        if (userExist is null)
+        {
+            return ResultViewModel<UserViewModel>.Error("Usuário não encontrado");
+        }
+
+        var model = UserViewModel.FromEntity(user);
+
+        return ResultViewModel<UserViewModel>.Success(model);
     }
 }
