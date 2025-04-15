@@ -26,7 +26,7 @@ public class LoanRepository : ILoanRepository
 
         if (loan is null)
         {
-            throw new KeyNotFoundException("Empréstimo não encontrado.");
+            return null;
         }
 
         loan.MarkAsReturned();
