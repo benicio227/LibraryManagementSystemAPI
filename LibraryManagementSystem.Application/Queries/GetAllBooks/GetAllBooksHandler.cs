@@ -3,7 +3,7 @@ using LibraryManagementSystem.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Queries.GetAllBooks;
-public class GetAllBooksHandler : IRequestHandler<GetAllBooksQuery, List<BookViewModel>>
+public class GetAllBooksHandler : IRequestHandler<GetAllBooksQuery, ResultViewModel<List<BookViewModel>>>
 {
     private readonly IBookRepository _repository;
 
@@ -11,12 +11,12 @@ public class GetAllBooksHandler : IRequestHandler<GetAllBooksQuery, List<BookVie
     {
         _repository = repository; 
     }
-    public async Task<List<BookViewModel>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel<List<BookViewModel>>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
     {
         var books = await _repository.GetAll();
 
         var model = books.Select(BookViewModel.FromEntity).ToList();
 
-        return model;
+        return ResultViewModel<List<BookViewModel>>.Success(model);
     }
 }

@@ -1,8 +1,9 @@
-﻿using LibraryManagementSystem.Core.Repositories;
+﻿using LibraryManagementSystem.Application.Models;
+using LibraryManagementSystem.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.LoanFolder.ReturnLoan;
-public class ReturnBookHandler : IRequestHandler<ReturnBookCommand, string>
+public class ReturnBookHandler : IRequestHandler<ReturnBookCommand, ResultViewModel<string>>
 {
     private readonly ILoanRepository _repository;
 
@@ -10,20 +11,24 @@ public class ReturnBookHandler : IRequestHandler<ReturnBookCommand, string>
     {
         _repository = repository;
     }
-    public async Task<string> Handle(ReturnBookCommand request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel<string>> Handle(ReturnBookCommand request, CancellationToken cancellationToken)
     {
         var  loan = await _repository.Pacth(request.Id);
+
+        if (loan is null)
+        {
+            return ResultViewModel<string>.Error("Empréstimo não encontrado");
+        }
 
         var atraso = (loan.DateReturned!.Value - loan.DateDue).Days;
 
         if (atraso > 0)
         {
-            return $"Livro devolvido com {atraso} dias de atraso";
+            return ResultViewModel<string>.Success($"Livro devolvido com {atraso} dias de atraso");
         }
         else
         {
-            return "Livro devolvido no prazo";
-        }
-
+            return ResultViewModel<string>.Success("Livro devolvido no prazo");
+        }  
     }
 }

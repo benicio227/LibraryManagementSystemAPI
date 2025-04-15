@@ -3,7 +3,7 @@ using LibraryManagementSystem.Core.Entities;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.UserFolder.InsertUser;
-public class InsertUserCommand : IRequest<UserViewModel>
+public class InsertUserCommand : IRequest<ResultViewModel<UserViewModel>>
 {
     public string Name { get; set; }
     public string Email { get; set; }

@@ -1,10 +1,9 @@
 ﻿using LibraryManagementSystem.Application.Models;
-using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.BookFolder.InsertBook;
-public class InsertBookHandler : IRequestHandler<InsertBookCommand, ResultViewModel<Book?>>
+public class InsertBookHandler : IRequestHandler<InsertBookCommand, ResultViewModel<BookViewModel>>
 {
     private readonly IBookRepository _repository;
 
@@ -12,12 +11,19 @@ public class InsertBookHandler : IRequestHandler<InsertBookCommand, ResultViewMo
     {
         _repository = repository;
     }
-    public async Task<ResultViewModel<Book?>> Handle(InsertBookCommand request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel<BookViewModel>> Handle(InsertBookCommand request, CancellationToken cancellationToken)
     {
         var book = request.ToEntity();
 
-        await _repository.Add(book);
+        var bookExist = await _repository.Add(book);
 
-        return ResultViewModel<Book?>.Success(book);
+        if (bookExist is null)
+        {
+            return ResultViewModel<BookViewModel>.Error("Livro não encontrado");
+        }
+
+        var model = BookViewModel.FromEntity(book); 
+
+        return ResultViewModel<BookViewModel>.Success(model);
     }
 }

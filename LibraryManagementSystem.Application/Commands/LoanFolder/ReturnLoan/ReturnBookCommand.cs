@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using LibraryManagementSystem.Application.Models;
+using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.LoanFolder.ReturnLoan;
-public class ReturnBookCommand : IRequest<string>
+public class ReturnBookCommand : IRequest<ResultViewModel<string>>
 {
     public ReturnBookCommand(int id)
     {

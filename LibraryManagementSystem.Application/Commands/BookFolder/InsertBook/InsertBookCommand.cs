@@ -3,7 +3,7 @@ using LibraryManagementSystem.Core.Entities;
 using MediatR;
 
 namespace LibraryManagementSystem.Application.Commands.BookFolder.InsertBook;
-public class InsertBookCommand : IRequest<ResultViewModel<Book?>>
+public class InsertBookCommand : IRequest<ResultViewModel<BookViewModel>>
 {
     public string Title { get; set; }
     public string Author { get; set; }
