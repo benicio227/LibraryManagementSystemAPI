@@ -18,6 +18,11 @@ public class UserController : ControllerBase
     {
         var result = await _mediator.Send(command);
 
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
         return Created(string.Empty, result);
     }
 
