@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Application.Commands.LoanFolder.ReturnLoan;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace LibraryManagementSystem.API.Controllers;
 [Route("api/[controller]")]
@@ -19,6 +20,11 @@ public class LoanController : ControllerBase
     {
         var result = await _mediator.Send(command);
 
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
         return Created(string.Empty, result);
     }
 
@@ -27,6 +33,11 @@ public class LoanController : ControllerBase
     {
         var result = await _mediator.Send(new ReturnBookCommand(id));
 
-        return Ok();
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(new { message = result.Data });
     }
 }
