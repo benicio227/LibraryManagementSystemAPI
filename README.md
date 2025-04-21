@@ -1,7 +1,7 @@
 ## Sobre o projeto
 
 O projeto Sistema de Gerenciamento de Biblioteca é um projeto desenvolvido com **.NET 8**, que permite o gerenciamento de livros e da biblioteca para facilitar o cadastro de
-um livro, o empréstimo, a criação e remoção. Construído seguindo os princípios da Clean Architecture para garantir uma organização modular e escalável do código. A estrutura
+um livro, o empréstimo, a criação e remoção. Construído seguindo os princípios da **Clean Architecture** para garantir uma organização modular e escalável do código. A estrutura
 camadas  separa as responsabilidades de domínio, aplicação, infraestrutura e interface, promovendo  um código mais limpo, testável e fácil de manter.
 
 A aplicação utiliza **Entity Framework Core** para o mapeamento e manipulação do banco de dados **SQL Server**, garantindo eficiência e flexibilidade no acesso aos dados.
